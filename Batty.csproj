@@ -309,6 +309,7 @@
     <Compile Include="Assets\Resources\Scripts\BoardController.cs" />
     <Compile Include="Assets\Resources\Scripts\Card.cs" />
     <Compile Include="Assets\Resources\Scripts\Letter.cs" />
+    <Compile Include="Assets\Resources\Scripts\Stats.cs" />
     <Compile Include="Assets\Resources\Scripts\TestingSetup.cs" />
   </ItemGroup>
   <ItemGroup>

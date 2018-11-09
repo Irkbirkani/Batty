@@ -43,48 +43,47 @@ public class Card : MonoBehaviour {
         {
             transform.position = new Vector2(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count-1)));
         }
+        Stats.Moves++;
         gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Stationary";
     }
 
     public void NonMove()
     {
+        Stats.Moves--;
         transform.position = new Vector2(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count-1)));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var sort = collision.gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
-        if (clicked)
+        switch (sort)
         {
-            switch (sort)
-            {
-                case "Letters":
-                    letter.RemoveCard();
-                    letter = collision.GetComponent<Letter>();
-                    transform.position = letter.transform.position;
-                    letter.AddCard(this);
+            case "Letters":
+                letter.RemoveCard();
+                letter = collision.GetComponent<Letter>();
+                transform.position = letter.transform.position;
+                letter.AddCard(this);
+                break;
+            case "Back":
+                letter.RemoveCard();
+                letter = collision.GetComponent<Card>().letter;
+                transform.position = letter.transform.position;
+                letter.AddCard(this);
+                break;
+            case "Stationary":
+                if (collision.GetComponent<Card>().value < value)
+                {
+                    NonMove();
                     break;
-                case "Back":
+                }
+                else
+                {
                     letter.RemoveCard();
-                    letter = collision.GetComponent<Card>().letter;
-                    transform.position = letter.transform.position;
+                    letter = collision.gameObject.GetComponent<Card>().letter;
                     letter.AddCard(this);
+                    transform.position = new Vector3(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count-1)));
                     break;
-                case "Stationary":
-                    if (collision.GetComponent<Card>().value < value)
-                    {
-                        NonMove();
-                        break;
-                    }
-                    else
-                    {
-                        letter.RemoveCard();
-                        letter = collision.gameObject.GetComponent<Card>().letter;
-                        letter.AddCard(this);
-                        transform.position = new Vector3(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count-1)));
-                        break;
-                    }
-            }
+                }
         }
     }
     public void MakeCard(int val, Letter letr)

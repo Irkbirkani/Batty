@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BoardController : MonoBehaviour {
 
     public Letter NumStart, NumFinish;
+    public Text moves;
 
     private int level;
 
@@ -15,6 +17,9 @@ public class BoardController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        moves.text = "Moves: " + Stats.Moves;
+
         if (NumFinish.Cards.Count == level)
         {
             var arr = NumFinish.Cards.ToArray();
