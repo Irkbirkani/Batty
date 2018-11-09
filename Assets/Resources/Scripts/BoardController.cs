@@ -6,6 +6,8 @@ public class BoardController : MonoBehaviour {
 
     public Letter NumStart, NumFinish;
 
+    private int level;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -13,23 +15,31 @@ public class BoardController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (NumFinish.Cards.Count == level)
+        {
+            var arr = NumFinish.Cards.ToArray();
+            bool sorted = Sorted(arr);
+            if (sorted)
+                //TODO Change to end scene
+                Debug.Log("YAY");
+        }
 	}
 
-    public void MakeLevel(int level)
+    public void MakeLevel(int lvl)
     {
+        level = lvl;
         List<Card> cards = new List<Card>();
-        for(int i = 1; i <= level-1; ++i)
+        for(int i = 1; i <= lvl-1; ++i)
         {
             GameObject card;
             card = Instantiate(Resources.Load("Prefabs/Card", typeof(GameObject)) as GameObject);
             card.GetComponent<Card>().MakeCard(i, NumStart);
-            card.GetComponent<SpriteRenderer>().sortingOrder = level - i;
+            card.GetComponent<SpriteRenderer>().sortingOrder = lvl - i;
             cards.Add(card.GetComponent<Card>());
         }
 
         System.Random rng = new System.Random();
-        int n = level - 1;
+        int n = lvl - 1;
         while(n > 1)
         {
             n--;
@@ -40,12 +50,24 @@ public class BoardController : MonoBehaviour {
         }
 
         GameObject highCard = Instantiate(Resources.Load("Prefabs/Card", typeof(GameObject)) as GameObject);
-        highCard.GetComponent<Card>().MakeCard(level, NumStart);
+        highCard.GetComponent<Card>().MakeCard(lvl, NumStart);
         NumStart.AddCard(highCard.GetComponent<Card>());
         foreach(Card c in cards)
         {
             NumStart.AddCard(c);
         }
         NumStart.Cards.Peek().GetComponent<BoxCollider2D>().enabled = true;
+    }
+
+    private bool Sorted(Card[] arr)
+    {
+        for(int i = 1; i < arr.Length; ++i)
+        {
+            if (arr[i - 1].value > arr[i].value)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
