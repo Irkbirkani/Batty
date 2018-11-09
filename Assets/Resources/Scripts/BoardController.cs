@@ -23,11 +23,8 @@ public class BoardController : MonoBehaviour {
         {
             GameObject card;
             card = Instantiate(Resources.Load("Prefabs/Card", typeof(GameObject)) as GameObject);
-            card.GetComponent<Card>().value = i;
-            card.GetComponent<SpriteRenderer>().sprite =Resources.Load("Sprites/Back", typeof(Sprite)) as Sprite;
-            card.GetComponent<SpriteRenderer>().sortingLayerName = "Stationary";
-            card.GetComponent<Card>().letter = NumStart;
-            card.transform.position = NumStart.transform.position;
+            card.GetComponent<Card>().MakeCard(i, NumStart);
+            card.GetComponent<SpriteRenderer>().sortingOrder = level - i;
             cards.Add(card.GetComponent<Card>());
         }
 
@@ -43,13 +40,12 @@ public class BoardController : MonoBehaviour {
         }
 
         GameObject highCard = Instantiate(Resources.Load("Prefabs/Card", typeof(GameObject)) as GameObject);
-        highCard.GetComponent<Card>().value = level;
-        highCard.GetComponent<SpriteRenderer>().sprite =Resources.Load("Sprites/Back", typeof(Sprite)) as Sprite;
-
+        highCard.GetComponent<Card>().MakeCard(level, NumStart);
         NumStart.AddCard(highCard.GetComponent<Card>());
         foreach(Card c in cards)
         {
             NumStart.AddCard(c);
         }
+        NumStart.Cards.Peek().GetComponent<BoxCollider2D>().enabled = true;
     }
 }

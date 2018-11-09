@@ -5,7 +5,6 @@ using UnityEngine;
 public class Card : MonoBehaviour {
 
     public int value;
-    public bool top = false;
     public Letter letter;
     public bool down = true;
 
@@ -52,13 +51,6 @@ public class Card : MonoBehaviour {
         transform.position = new Vector2(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count-1)));
     }
 
-    private void NotTop()
-    {
-        top = false;
-        gameObject.GetComponent<BoxCollider2D>().enabled = false;
-    }
-
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var sort = collision.gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
@@ -71,7 +63,12 @@ public class Card : MonoBehaviour {
                     letter = collision.GetComponent<Letter>();
                     transform.position = letter.transform.position;
                     letter.AddCard(this);
-                    top = true;
+                    break;
+                case "Back":
+                    letter.RemoveCard();
+                    letter = collision.GetComponent<Card>().letter;
+                    transform.position = letter.transform.position;
+                    letter.AddCard(this);
                     break;
                 case "Stationary":
                     if (collision.GetComponent<Card>().value < value)
@@ -85,11 +82,19 @@ public class Card : MonoBehaviour {
                         letter = collision.gameObject.GetComponent<Card>().letter;
                         letter.AddCard(this);
                         transform.position = new Vector3(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count-1)));
-                        collision.GetComponent<Card>().top = false;
-                        top = true;
                         break;
                     }
             }
         }
+    }
+    public void MakeCard(int val, Letter letr)
+    {
+        this.GetComponent<Card>().value = val;
+        this.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprites/Back", typeof(Sprite)) as Sprite;
+        this.name = val.ToString();
+        this.GetComponent<SpriteRenderer>().sortingLayerName = "Back";
+        this.GetComponent<Card>().letter = letr;
+        this.GetComponent<BoxCollider2D>().enabled = false;
+        this.transform.position = letter.transform.position;
     }
 }
