@@ -7,6 +7,7 @@ public class Card : MonoBehaviour {
     public int value;
     public bool top = false;
     public Letter letter;
+    public bool down = true;
 
     private bool clicked = false;
 	// Use this for initialization
@@ -24,8 +25,14 @@ public class Card : MonoBehaviour {
         }
 	}
 
+
     private void OnMouseDown()
     {
+        if (down)
+        {
+            gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprites/" + value, typeof(Sprite)) as Sprite;
+            down = false;
+        }
         clicked = true;
         gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Moving";
     }
@@ -33,21 +40,16 @@ public class Card : MonoBehaviour {
     private void OnMouseUp()
     {
         clicked = false;
-        if((transform.position - letter.transform.position).magnitude >= 0.05f)
+        if((transform.position - new Vector3(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count-1)))).magnitude >= 0.05f)
         {
-            transform.position = letter.transform.position;
+            transform.position = new Vector2(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count-1)));
         }
         gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Stationary";
     }
 
     public void NonMove()
     {
-        transform.position = letter.transform.position;
-    }
-
-    public void SetTransform(int numCards)
-    {
-        transform.position = new Vector2(letter.transform.position.x, letter.transform.position.y - numCards);
+        transform.position = new Vector2(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count-1)));
     }
 
     private void NotTop()
@@ -65,7 +67,6 @@ public class Card : MonoBehaviour {
             switch (sort)
             {
                 case "Letters":
-                    Debug.Log("Letters");
                     letter.RemoveCard();
                     letter = collision.GetComponent<Letter>();
                     transform.position = letter.transform.position;
@@ -73,10 +74,8 @@ public class Card : MonoBehaviour {
                     top = true;
                     break;
                 case "Stationary":
-                    Debug.Log("Stationary");
                     if (collision.GetComponent<Card>().value < value)
                     {
-                        Debug.Log("Value");
                         NonMove();
                         break;
                     }
@@ -85,7 +84,7 @@ public class Card : MonoBehaviour {
                         letter.RemoveCard();
                         letter = collision.gameObject.GetComponent<Card>().letter;
                         letter.AddCard(this);
-                        transform.position = letter.transform.position;
+                        transform.position = new Vector3(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count-1)));
                         collision.GetComponent<Card>().top = false;
                         top = true;
                         break;

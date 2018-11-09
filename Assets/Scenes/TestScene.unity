@@ -238,8 +238,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 593b650d3e7482843a3d11baf25c1961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topCard: {fileID: 266115737}
-  numCards: 1
 --- !u!1 &534314413
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,6 +248,7 @@ GameObject:
   - component: {fileID: 534314416}
   - component: {fileID: 534314415}
   - component: {fileID: 534314414}
+  - component: {fileID: 534314417}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -317,6 +316,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &534314417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 534314413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccdbfb2b99992404a95f5eaa6fe82f1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  A: {fileID: 758751335}
+  B: {fileID: 1188280587}
+  C: {fileID: 321525695}
+  one: {fileID: 266115737}
+  two: {fileID: 56713699}
+  three: {fileID: 0}
+  BC: {fileID: 1646545644}
 --- !u!1 &758751331
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,8 +447,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 593b650d3e7482843a3d11baf25c1961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topCard: {fileID: 0}
-  numCards: 0
 --- !u!1 &1188280582
 GameObject:
   m_ObjectHideFlags: 0
@@ -545,8 +560,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 593b650d3e7482843a3d11baf25c1961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topCard: {fileID: 56713699}
-  numCards: 1
 --- !u!1001 &1457204583
 Prefab:
   m_ObjectHideFlags: 0
@@ -590,7 +603,7 @@ Prefab:
         type: 2}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6443c2f04c1de1d47b97b900fc37f86f,
+      objectReference: {fileID: 21300000, guid: 48a3cea4431c7b34083b96e0f23fd6ee,
         type: 3}
     - target: {fileID: 1272453196733880, guid: 25d12ed0586838a4f8093d7560f227b7, type: 2}
       propertyPath: m_Name
@@ -639,6 +652,10 @@ Prefab:
       propertyPath: top
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1272453196733880, guid: 25d12ed0586838a4f8093d7560f227b7, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25d12ed0586838a4f8093d7560f227b7, type: 2}
   m_IsPrefabAsset: 0
@@ -650,6 +667,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1646545643}
+  - component: {fileID: 1646545644}
   m_Layer: 0
   m_Name: Board Controller
   m_TagString: Untagged
@@ -670,6 +688,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1646545644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1646545642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14364f0d9cd36b843bcf695cab087a36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NumStart: {fileID: 321525695}
+  NumFinish: {fileID: 758751335}
 --- !u!1 &1817872133
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,12 +852,17 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1272453196733880, guid: 25d12ed0586838a4f8093d7560f227b7, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114126390426816136, guid: 25d12ed0586838a4f8093d7560f227b7,
         type: 2}
       propertyPath: top
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114126390426816136, guid: 25d12ed0586838a4f8093d7560f227b7,
+        type: 2}
+      propertyPath: down
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25d12ed0586838a4f8093d7560f227b7, type: 2}

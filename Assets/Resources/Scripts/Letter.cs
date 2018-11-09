@@ -16,6 +16,11 @@ public class Letter : MonoBehaviour {
 
     public void AddCard(Card card)
     {
+        if(Cards.Count > 0)
+        {
+            var temp = Cards.Peek();
+            temp.GetComponent<BoxCollider2D>().enabled = false;
+        }
         Cards.Push(card);
         MoveCheck();
     }
@@ -23,6 +28,11 @@ public class Letter : MonoBehaviour {
     public void RemoveCard()
     {
         Cards.Pop();
+        if(Cards.Count > 0)
+        {
+            var temp = Cards.Peek();
+            temp.GetComponent<BoxCollider2D>().enabled = true;
+        }
         MoveCheck();
     }
     private void MoveCheck()
