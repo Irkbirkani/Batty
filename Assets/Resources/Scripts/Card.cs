@@ -2,34 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Card : MonoBehaviour {
+public class Card : MonoBehaviour
+{
 
     public int value;
     public Letter letter;
     public bool down = true;
+    public BoardController board;
     private bool triggered = false;
     private GameObject collisionTarget;
 
 
     private bool clicked = false;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    // Use this for initialization
+    void Start()
+    {
+        board = GameObject.Find("Board Controller").GetComponent<BoardController>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         if (clicked)
         {
             transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x,
                                              Camera.main.ScreenToWorldPoint(Input.mousePosition).y,
                                              transform.position.z);
         }
-	}
+    }
 
 
     private void OnMouseDown()
     {
+        if (!board.started)
+            board.StartTimer();
+
         if (down)
         {
             gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprites/" + value, typeof(Sprite)) as Sprite;
@@ -42,9 +49,9 @@ public class Card : MonoBehaviour {
     private void OnMouseUp()
     {
         clicked = false;
-        if((transform.position - new Vector3(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count-1)))).magnitude >= 0.05f)
+        if ((transform.position - new Vector3(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count - 1)))).magnitude >= 0.05f)
         {
-            transform.position = new Vector2(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count-1)));
+            transform.position = new Vector2(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count - 1)));
         }
         if (triggered)
             MakeMove(collisionTarget);
@@ -54,7 +61,7 @@ public class Card : MonoBehaviour {
     public void NonMove()
     {
         Stats.Moves--;
-        transform.position = new Vector2(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count-1)));
+        transform.position = new Vector2(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count - 1)));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -75,26 +82,26 @@ public class Card : MonoBehaviour {
                 letter = go.GetComponent<Letter>();
                 transform.position = letter.transform.position;
                 letter.AddCard(this);
-                break;
+                return;
             case "Back":
                 letter.RemoveCard();
                 letter = go.GetComponent<Card>().letter;
                 transform.position = letter.transform.position;
                 letter.AddCard(this);
-                break;
+                return;
             case "Stationary":
                 if (go.GetComponent<Card>().value < value)
                 {
                     NonMove();
-                    break;
+                    return;
                 }
                 else
                 {
                     letter.RemoveCard();
                     letter = go.gameObject.GetComponent<Card>().letter;
                     letter.AddCard(this);
-                    transform.position = new Vector3(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count-1)));
-                    break;
+                    transform.position = new Vector3(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count - 1)));
+                    return;
                 }
         }
     }

@@ -41,6 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Timer
+    uniqueID: 2583625897
+    locked: 0
   - name: Letters
     uniqueID: 518779849
     locked: 0

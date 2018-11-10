@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BoardController : MonoBehaviour {
 
     public Letter NumStart, NumFinish;
-    public Text moves;
+    public Text movesText, timeText;
+    public bool started = false;
 
+    private float timeElapsed;
     private int level;
 
 	// Use this for initialization
@@ -18,17 +21,31 @@ public class BoardController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        moves.text = "Moves: " + Stats.Moves;
+        movesText.text = "Moves: " + Stats.Moves;
+        if (started)
+        {
+            timeElapsed += Time.deltaTime;
+            timeText.text = FormatTime(timeElapsed);
+        }
 
         if (NumFinish.Cards.Count == level)
         {
             var arr = NumFinish.Cards.ToArray();
             bool sorted = Sorted(arr);
             if (sorted)
+            {
+                started = false;
                 //TODO Change to end scene
                 Debug.Log("YAY");
+            }
         }
 	}
+
+    string FormatTime(float value)
+    {
+        TimeSpan t = TimeSpan.FromSeconds(value);
+        return string.Format("Time: {0:D2}:{1:D2}:{2:D2}", t.Hours, t.Minutes, t.Seconds);
+    }
 
     public void MakeLevel(int lvl)
     {
@@ -62,6 +79,12 @@ public class BoardController : MonoBehaviour {
             NumStart.AddCard(c);
         }
         NumStart.Cards.Peek().GetComponent<BoxCollider2D>().enabled = true;
+    }
+
+    public void StartTimer()
+    {
+        started = true;
+        transform.Find("TimerStarter").gameObject.SetActive(false);
     }
 
     private bool Sorted(Card[] arr)
