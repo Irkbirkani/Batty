@@ -7,6 +7,9 @@ public class Card : MonoBehaviour {
     public int value;
     public Letter letter;
     public bool down = true;
+    private bool triggered = false;
+    private GameObject collisionTarget;
+
 
     private bool clicked = false;
 	// Use this for initialization
@@ -43,7 +46,8 @@ public class Card : MonoBehaviour {
         {
             transform.position = new Vector2(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count-1)));
         }
-        Stats.Moves++;
+        if (triggered)
+            MakeMove(collisionTarget);
         gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Stationary";
     }
 
@@ -55,23 +59,31 @@ public class Card : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var sort = collision.gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
+        triggered = true;
+        collisionTarget = collision.gameObject;
+    }
+
+    public void MakeMove(GameObject go)
+    {
+        triggered = false;
+        var sort = go.gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
+        Stats.Moves++;
         switch (sort)
         {
             case "Letters":
                 letter.RemoveCard();
-                letter = collision.GetComponent<Letter>();
+                letter = go.GetComponent<Letter>();
                 transform.position = letter.transform.position;
                 letter.AddCard(this);
                 break;
             case "Back":
                 letter.RemoveCard();
-                letter = collision.GetComponent<Card>().letter;
+                letter = go.GetComponent<Card>().letter;
                 transform.position = letter.transform.position;
                 letter.AddCard(this);
                 break;
             case "Stationary":
-                if (collision.GetComponent<Card>().value < value)
+                if (go.GetComponent<Card>().value < value)
                 {
                     NonMove();
                     break;
@@ -79,13 +91,14 @@ public class Card : MonoBehaviour {
                 else
                 {
                     letter.RemoveCard();
-                    letter = collision.gameObject.GetComponent<Card>().letter;
+                    letter = go.gameObject.GetComponent<Card>().letter;
                     letter.AddCard(this);
                     transform.position = new Vector3(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count-1)));
                     break;
                 }
         }
     }
+
     public void MakeCard(int val, Letter letr)
     {
         this.GetComponent<Card>().value = val;
