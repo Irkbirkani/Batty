@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +16,7 @@ public class BoardController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+        MakeLevel(Stats.Level);
 	}
 	
 	// Update is called once per frame
@@ -24,8 +25,8 @@ public class BoardController : MonoBehaviour {
         movesText.text = "Moves: " + Stats.Moves;
         if (started)
         {
-            timeElapsed += Time.deltaTime;
-            timeText.text = FormatTime(timeElapsed);
+            Stats.Time += Time.deltaTime;
+            timeText.text = Stats.FormatTime();
         }
 
         if (NumFinish.Cards.Count == level)
@@ -35,17 +36,11 @@ public class BoardController : MonoBehaviour {
             if (sorted)
             {
                 started = false;
-                //TODO Change to end scene
+                SceneManager.LoadScene("EndScene");
                 Debug.Log("YAY");
             }
         }
 	}
-
-    string FormatTime(float value)
-    {
-        TimeSpan t = TimeSpan.FromSeconds(value);
-        return string.Format("Time: {0:D2}:{1:D2}:{2:D2}", t.Hours, t.Minutes, t.Seconds);
-    }
 
     public void MakeLevel(int lvl)
     {

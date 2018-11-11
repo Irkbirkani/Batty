@@ -308,7 +308,9 @@
   <ItemGroup>
     <Compile Include="Assets\Resources\Scripts\BoardController.cs" />
     <Compile Include="Assets\Resources\Scripts\Card.cs" />
+    <Compile Include="Assets\Resources\Scripts\EndGameStats.cs" />
     <Compile Include="Assets\Resources\Scripts\Letter.cs" />
+    <Compile Include="Assets\Resources\Scripts\LevelSelector.cs" />
     <Compile Include="Assets\Resources\Scripts\Stats.cs" />
     <Compile Include="Assets\Resources\Scripts\TestingSetup.cs" />
     <Compile Include="Assets\Resources\Scripts\TimeStart.cs" />

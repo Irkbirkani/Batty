@@ -10,7 +10,7 @@ public class TestingSetup : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        BC.MakeLevel(3);
+        //BC.MakeLevel(3);
         //A.AddCard(three);
         //B.AddCard(two);
         //C.AddCard(one);
