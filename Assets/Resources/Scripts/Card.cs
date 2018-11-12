@@ -49,9 +49,9 @@ public class Card : MonoBehaviour
     private void OnMouseUp()
     {
         clicked = false;
-        if ((transform.position - new Vector3(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count - 1)))).magnitude >= 0.05f)
+        if ((transform.position - new Vector3(letter.transform.position.x, letter.transform.position.y - (0.35f * letter.CardDistance()))).magnitude >= 0.05f)
         {
-            transform.position = new Vector2(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count - 1)));
+            transform.position = new Vector2(letter.transform.position.x, letter.transform.position.y - (0.35f * letter.CardDistance()));
         }
         if (triggered)
             MakeMove(collisionTarget);
@@ -61,7 +61,7 @@ public class Card : MonoBehaviour
     public void NonMove()
     {
         Stats.Moves--;
-        transform.position = new Vector2(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count - 1)));
+        transform.position = new Vector2(letter.transform.position.x, letter.transform.position.y - (0.35f * letter.CardDistance()));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -100,7 +100,7 @@ public class Card : MonoBehaviour
                     letter.RemoveCard();
                     letter = go.gameObject.GetComponent<Card>().letter;
                     letter.AddCard(this);
-                    transform.position = new Vector3(letter.transform.position.x, letter.transform.position.y - (0.25f * (letter.Cards.Count - 1)));
+                    transform.position = new Vector3(letter.transform.position.x, letter.transform.position.y - (0.25f * letter.CardDistance()));
                     return;
                 }
         }

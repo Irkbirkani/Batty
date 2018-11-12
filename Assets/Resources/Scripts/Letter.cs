@@ -46,4 +46,17 @@ public class Letter : MonoBehaviour {
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
         }
     }
+
+    public int CardDistance()
+    {
+        int down = 1;
+        foreach(Card c in Cards.ToArray())
+        {
+            if (c.down)
+                down++;
+        }
+
+        return Cards.Count - down;
+
+    }
 }

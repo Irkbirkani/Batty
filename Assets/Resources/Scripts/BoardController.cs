@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class BoardController : MonoBehaviour {
 
     public Letter NumStart, NumFinish;
-    public Text movesText, timeText;
+    public Text movesText, timeText, levelText;
     public bool started = false;
 
     private float timeElapsed;
@@ -17,6 +17,7 @@ public class BoardController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         MakeLevel(Stats.Level);
+        levelText.text = "Level: " + Stats.Level;
 	}
 	
 	// Update is called once per frame
@@ -31,14 +32,10 @@ public class BoardController : MonoBehaviour {
 
         if (NumFinish.Cards.Count == level)
         {
-            var arr = NumFinish.Cards.ToArray();
-            bool sorted = Sorted(arr);
-            if (sorted)
-            {
-                started = false;
-                SceneManager.LoadScene("EndScene");
-                Debug.Log("YAY");
-            }
+            //var arr = NumFinish.Cards.ToArray();
+            //bool sorted = Sorted(arr);
+            started = false;
+            SceneManager.LoadScene("EndScene");
         }
 	}
 
